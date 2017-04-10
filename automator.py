@@ -5,30 +5,44 @@
 
 import atx
 import sys
-import time
-imagePathForScript = sys.argv[1]
-storePath = sys.argv[2]
-port = sys.argv[3]
+
+# imagePathForScript = sys.argv[1]
+# storePath = sys.argv[2]
+# port = sys.argv[3]
 from iOSMonkey.monkey.ios_monkey import *
 
 #############设置程序是否是调试版本###############
 isDebug = True
 
+# 定义参数
 GT_NORMAL_OUTPUT = 'GT_NORMAL_OUTPUT'
 GT_PICTURE_NOT_FOUND = 'GT_PICTURE_NOT_FOUND'
+PLAY = 'play@auto.png'
+ENTER = 'enter@auto.png'
+LATER_BIND= 'later_bind@auto.png'
+PERMIT = 'permit@auto.png'
+PHOTO_CONFIRM = 'photo_confirm@auto.png'
+USER_CONFIRM = 'user_confirm@auto.png'
+USER_CLOSE = 'user_close@auto.png'
+RANDOM = 'random@auto.png'
+CREATEPLAYER = 'createplayer@auto.png'
+CREATE_CONFIRM = 'confirm@auto.png'
+SKIP = 'skip@auto.png'
+TIP_CONFIRM = 'tip_confirm@auto.png'
+CLOSE = 'close@auto.png'
+AUTO_CANCEL = 'auto_cancel@auto.png'
+
+
 
 if isDebug:
     imagePathForScript = ""
     storePath = "/Users/casiillas/Desktop/screenshot/"
     port = "8100"
-
-
+imagePathForScript = '/Users/casiillas/Desktop/pic/'
 url = "http://127.0.0.1" + ":" + port
-bundle_id = "com.netdragon.quicktest"
 d = atx.connect(url)
-s = d.start_app(bundle_id)
 
-
+# Debug信息
 def log_debug(line, debug_state = True):
     if debug_state:
         print line
@@ -37,52 +51,43 @@ def log_debug(line, debug_state = True):
 def login():
     delay_exist(1)
     # 检测客户更新
-    if not d.exists("play@auto.png") and not d.exists("enter@auto.png"):
+    if not d.exists(imagePathForScript + PLAY) and not d.exists(imagePathForScript + ENTER):
         log_debug(GT_NORMAL_OUTPUT + ':' + '更新中...', debug_state=isDebug)
-        update = delay_exist(500,"play@auto.png")
+        update = delay_exist(500,imagePathForScript + PLAY)
         if update == False:
-            print GT_PICTURE_NOT_FOUND,':','play@auto.png'
+            print GT_PICTURE_NOT_FOUND,':',PLAY
         else:
             log_debug(GT_NORMAL_OUTPUT + ':' + '更新完成', debug_state=isDebug)
     else:
         log_debug(GT_NORMAL_OUTPUT + ':' + '已是最新版', debug_state=isDebug)
 
-    if d.exists("later_bind@auto.png"):
-        d.cilck("later_bind@auto.png")
+    if d.exists(imagePathForScript + LATER_BIND):
+        d.cilck(imagePathForScript + LATER_BIND)
     # 如果用户未登录过
-    if d.exists("play@auto.png"):
-        d.click_image("play@auto.png")
-        d.click_image("permit@auto.png")
+    if d.exists(imagePathForScript + PLAY):
+        d.click_image(imagePathForScript + PLAY)
+        d.click_image(imagePathForScript + PERMIT)
         # 安装后第一次登录
         delay_exist(2)
-        if d.exists("photo_confirm@auto.png"):
-            d.click_image("photo_confirm@auto.png")
-            d.click_image("later_bind@auto.png")
-            d.click_image("user_confirm@auto.png")
-            d.click_image("user_close@auto.png")
-        if d.exists("user_confirm@auto.png"):
-            d.click_image("user_confirm@auto.png")
-        d.click_image("enter@auto.png")
-        d.click_image("random@auto.png")
-        d.click_image("createplayer@auto.png")
-        d.click_image("confirm@auto.png")
-        d.click_image("skip@auto.png")
-        d.click_image("tip_confirm@auto.png")
-    elif d.exists("enter@auto.png"):
+        if d.exists(imagePathForScript + PHOTO_CONFIRM):
+            d.click_image(imagePathForScript + PHOTO_CONFIRM)
+            d.click_image(imagePathForScript + LATER_BIND)
+            d.click_image(imagePathForScript + USER_CONFIRM)
+            d.click_image(imagePathForScript + USER_CLOSE)
+        if d.exists(imagePathForScript + USER_CONFIRM):
+            d.click_image(imagePathForScript + USER_CONFIRM)
+        d.click_image(imagePathForScript + ENTER)
+        d.click_image(imagePathForScript + RANDOM)
+        d.click_image(imagePathForScript + CREATEPLAYER)
+        d.click_image(imagePathForScript + CREATE_CONFIRM)
+        d.click_image(imagePathForScript + SKIP)
+        d.click_image(imagePathForScript + TIP_CONFIRM)
+    elif d.exists(imagePathForScript + ENTER):
         # 如果用户已经登录过
-        d.click_image("enter@auto.png")
-        if d.exists("random@auto.png"):
-            d.click_image("random@auto.png")
-            d.click_image("createplayer@auto.png")
-            d.click_image("confirm@auto.png")
-            delay_exist(2)
-            d.click_image("skip@auto.png")
-            d.click_image("tip_confirm@auto.png")
-        else:
-            print GT_PICTURE_NOT_FOUND,':','random@auto.png'
+        d.click_image(imagePathForScript + ENTER)
     else:
-        print GT_PICTURE_NOT_FOUND,':','play@auto.png'
-        print GT_PICTURE_NOT_FOUND,':','enter@auto.png'
+        print GT_PICTURE_NOT_FOUND,':',PLAY
+        print GT_PICTURE_NOT_FOUND,':',ENTER
 
 #延时检测函数
 def delay_exist(mytime,image = None):
@@ -99,15 +104,17 @@ def monkey():
                     check_close_wnd=checkwindow, check_close_seconds=5)
 # 弹窗检测
 def checkwindow():
-    if d.exists("close@auto.png"):
-        d.click_image("close@auto.png")
-    if d.exists("auto_cancel@auto.png"):
-        d.click_image("auto_cancel@auto.png")
+    if d.exists(imagePathForScript + CLOSE):
+        d.click_image(imagePathForScript + CLOSE)
+    if d.exists(imagePathForScript + AUTO_CANCEL):
+        d.click_image(imagePathForScript + AUTO_CANCEL)
 def main():
+    bundle_id = "com.netdragon.quicktest"
+    d.start_app(bundle_id)
     try:
         login()
         monkey()
         d.stop_app(bundle_id)
     except Exception as e:
-        str_e = str(e)
+        print Exception, e
 main()
