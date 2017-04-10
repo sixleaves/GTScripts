@@ -1,1 +1,1 @@
-# GTScripts
+# GameScripts
