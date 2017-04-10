@@ -17,6 +17,10 @@ isDebug = True
 # 定义参数
 GT_NORMAL_OUTPUT = 'GT_NORMAL_OUTPUT'
 GT_PICTURE_NOT_FOUND = 'GT_PICTURE_NOT_FOUND'
+GT_TEST_CASE_FAILED = "GT_TEST_CASE_FAILED"
+GT_SYSTEM_EXCEPTION = "GT_SYSTEM_EXCEPTION"
+GT_OTHER_EXCEPTION = "GT_OTHER_EXCEPTION"
+
 PLAY = 'play@auto.png'
 ENTER = 'enter@auto.png'
 LATER_BIND= 'later_bind@auto.png'
@@ -32,15 +36,25 @@ TIP_CONFIRM = 'tip_confirm@auto.png'
 CLOSE = 'close@auto.png'
 AUTO_CANCEL = 'auto_cancel@auto.png'
 
-
-
 if isDebug:
-    imagePathForScript = ""
+    imagePathForScript = "/Users/casiillas/Desktop/pic/"
     storePath = "/Users/casiillas/Desktop/screenshot/"
     port = "8100"
-imagePathForScript = '/Users/casiillas/Desktop/pic/'
+
 url = "http://127.0.0.1" + ":" + port
 d = atx.connect(url)
+
+def main():
+
+    bundle_id = "com.netdragon.quicktest"
+    d.start_app(bundle_id)
+    try:
+        login()
+        monkey()
+        d.stop_app(bundle_id)
+    except Exception as e:
+        print GT_OTHER_EXCEPTION + ":" + e
+
 
 # Debug信息
 def log_debug(line, debug_state = True):
@@ -108,13 +122,5 @@ def checkwindow():
         d.click_image(imagePathForScript + CLOSE)
     if d.exists(imagePathForScript + AUTO_CANCEL):
         d.click_image(imagePathForScript + AUTO_CANCEL)
-def main():
-    bundle_id = "com.netdragon.quicktest"
-    d.start_app(bundle_id)
-    try:
-        login()
-        monkey()
-        d.stop_app(bundle_id)
-    except Exception as e:
-        print Exception, e
+
 main()
