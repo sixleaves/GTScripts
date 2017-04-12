@@ -6,13 +6,11 @@
 import atx
 import sys
 
-# imagePathForScript = sys.argv[1]
-# storePath = sys.argv[2]
-# port = sys.argv[3]
+
 from iOSMonkey.monkey.ios_monkey import *
 
 #############设置程序是否是调试版本###############
-isDebug = True
+isDebug = False
 
 # 定义参数
 GT_NORMAL_OUTPUT = 'GT_NORMAL_OUTPUT'
@@ -40,6 +38,13 @@ if isDebug:
     imagePathForScript = "/Users/casiillas/Desktop/pic/"
     storePath = "/Users/casiillas/Desktop/screenshot/"
     port = "8100"
+else:
+	imagePathForScript = sys.argv[1]
+	storePath = sys.argv[2]
+	port = sys.argv[3]
+
+if imagePathForScript.endswith("/") is False:
+    imagePathForScript = imagePathForScript + "/"
 
 url = "http://127.0.0.1" + ":" + port
 d = atx.connect(url)
@@ -53,7 +58,7 @@ def main():
         monkey()
         d.stop_app(bundle_id)
     except Exception as e:
-        print GT_OTHER_EXCEPTION + ":" + e
+        print GT_OTHER_EXCEPTION + ":" + repr(e)
 
 
 # Debug信息
