@@ -2,16 +2,20 @@
 #
 # 支持iOS10.0以上版本
 # 支持iPhone5，5s,SE系列4寸 / iPhone6,6S,7系列4.7寸 / iPhone6Plus,6SPlus,7Plus系列5.5寸机型
+import random
+from threading import Thread, Lock
+import datetime
+import time
 
+from wda import *
 import atx
 import sys
-
+import traceback
 
 from iOSMonkey.monkey.ios_monkey import *
-
 #############设置程序是否是调试版本###############
+# isDebug = True
 isDebug = False
-
 # 定义参数
 GT_NORMAL_OUTPUT = 'GT_NORMAL_OUTPUT'
 GT_PICTURE_NOT_FOUND = 'GT_PICTURE_NOT_FOUND'
@@ -35,8 +39,8 @@ CLOSE = 'close@auto.png'
 AUTO_CANCEL = 'auto_cancel@auto.png'
 
 if isDebug:
-    imagePathForScript = "/Users/casiillas/Desktop/pic/"
-    storePath = "/Users/casiillas/Desktop/screenshot/"
+    imagePathForScript = "/data/pic/"
+    storePath = "/data/screenshot/"
     port = "8100"
 else:
 	imagePathForScript = sys.argv[1]
@@ -59,6 +63,7 @@ def main():
         d.stop_app(bundle_id)
     except Exception as e:
         print GT_OTHER_EXCEPTION + ":" + repr(e)
+        traceback.print_stack()
 
 
 # Debug信息
@@ -118,7 +123,7 @@ def delay_exist(mytime,image = None):
     return False
 # Monkey测试
 def monkey():
-    mm = Monkey(session=d.session)
+    mm = Monkey(session=d.session, port=port)
     mm.start_monkey(image_store_path= storePath, running_time=1,
                     check_close_wnd=checkwindow, check_close_seconds=5)
 # 弹窗检测
