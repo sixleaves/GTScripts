@@ -8,7 +8,8 @@ import time
 #
 #
 
-actions = ['_random_tap', '_random_swipe']
+actions = ['_random_tap']
+# , '_random_swipe']
 
 
 mutex = Lock()
@@ -150,7 +151,3 @@ if __name__ == '__main__':
                         func=None,
                         running_time=0.2,
                         capture_interval=5)
-
-    # print(monkey._target)
-else:
-    print('import monkey module')
