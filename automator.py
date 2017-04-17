@@ -14,7 +14,7 @@ import traceback
 
 from iOSMonkey.monkey.ios_monkey import *
 #############设置程序是否是调试版本###############
-# isDebug = True
+#isDebug = True
 isDebug = False
 # 定义参数
 GT_NORMAL_OUTPUT = 'GT_NORMAL_OUTPUT'
@@ -73,7 +73,7 @@ def log_debug(line, debug_state = True):
 
 # 账号登陆
 def login():
-    delay_exist(1)
+    delay_exist(2)
     # 检测客户更新
     if not d.exists(imagePathForScript + PLAY) and not d.exists(imagePathForScript + ENTER):
         log_debug(GT_NORMAL_OUTPUT + ':' + '更新中...', debug_state=isDebug)
@@ -110,7 +110,7 @@ def login():
         # 如果用户已经登录过
         d.click_image(imagePathForScript + ENTER)
     else:
-        raise ImageException('GT_PICTURE_NOT_FOUND:%s && %s' % PLAY,ENTER)
+        raise ImageException('GT_PICTURE_NOT_FOUND:%s && %s' % (PLAY,ENTER))
 
 #延时检测函数
 def delay_exist(mytime,image = None):
