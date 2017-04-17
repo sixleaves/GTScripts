@@ -64,10 +64,7 @@ def main():
     except Exception as e:
         print GT_OTHER_EXCEPTION + ":" + repr(e)
         traceback.print_stack()
-<<<<<<< HEAD
-=======
 
->>>>>>> d6f2e5c8346c5d992084547ff234ada08cd9da4c
 
 # Debug信息
 def log_debug(line, debug_state = True):
