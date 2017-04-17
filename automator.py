@@ -60,7 +60,6 @@ def main():
     except Exception as e:
         print GT_OTHER_EXCEPTION + ":" + repr(e)
 
-
 # Debug信息
 def log_debug(line, debug_state = True):
     if debug_state:
@@ -74,7 +73,7 @@ def login():
         log_debug(GT_NORMAL_OUTPUT + ':' + '更新中...', debug_state=isDebug)
         update = delay_exist(500,imagePathForScript + PLAY)
         if update == False:
-            print GT_PICTURE_NOT_FOUND,':',PLAY
+            raise ImageException('GT_PICTURE_NOT_FOUND:%s' % PLAY)
         else:
             log_debug(GT_NORMAL_OUTPUT + ':' + '更新完成', debug_state=isDebug)
     else:
@@ -105,8 +104,7 @@ def login():
         # 如果用户已经登录过
         d.click_image(imagePathForScript + ENTER)
     else:
-        print GT_PICTURE_NOT_FOUND,':',PLAY
-        print GT_PICTURE_NOT_FOUND,':',ENTER
+        raise ImageException('GT_PICTURE_NOT_FOUND:%s && %s' % PLAY,ENTER)
 
 #延时检测函数
 def delay_exist(mytime,image = None):
@@ -127,5 +125,8 @@ def checkwindow():
         d.click_image(imagePathForScript + CLOSE)
     if d.exists(imagePathForScript + AUTO_CANCEL):
         d.click_image(imagePathForScript + AUTO_CANCEL)
+# 图片异常捕获
+class ImageException(Exception):
+    pass
 
 main()
